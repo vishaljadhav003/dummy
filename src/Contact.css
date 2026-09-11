@@ -1,0 +1,347 @@
+/* =========================================================
+   CONTACT SECTION BASE
+========================================================= */
+
+.contact-section {
+  --bg-primary: #08090d;
+  --bg-secondary: #11131a;
+  --bg-card: rgba(20, 22, 30, 0.72);
+
+  --accent-color: #ff3b3b;
+  --accent-glow: rgba(255, 59, 59, 0.3);
+
+  --text-primary: #ffffff;
+  --text-muted: #9a9ea6;
+
+  --border-color: rgba(255, 255, 255, 0.12);
+
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 16px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  background:
+    radial-gradient(
+      circle at top left,
+      var(--accent-glow),
+      transparent 35%
+    ),
+    var(--bg-primary);
+  color: var(--text-primary);
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
+}
+
+/* Light Theme Overrides */
+html[data-maintenance-theme="light"] .contact-section {
+  --bg-primary: #f5f6f8;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.78);
+
+  --accent-color: #e52f2f;
+  --accent-glow: rgba(229, 47, 47, 0.2);
+
+  --text-primary: #111318;
+  --text-muted: #626873;
+
+  --border-color: rgba(15, 18, 25, 0.12);
+}
+
+/* Background Orbs */
+.contact-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.4;
+  max-width: 100vw;
+}
+
+.contact-bg-orb-one {
+  top: 5%;
+  left: -50px;
+  width: 250px;
+  height: 250px;
+  background: var(--accent-glow);
+  animation: contactOrbFloat 10s ease-in-out infinite;
+}
+
+/* =========================================================
+   FORM CONTAINER & CARD SCALING
+========================================================= */
+
+.contact-form-shell {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.contact-form-card {
+  position: relative;
+  width: 100%;
+  padding: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    background-color 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+html[data-maintenance-theme="light"] .contact-form-card {
+  box-shadow: 0 25px 70px rgba(20, 25, 35, 0.1);
+}
+
+.contact-form-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--border-color),
+      var(--accent-glow),
+      transparent
+    );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Cursor Canvas */
+.contact-cursor-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* =========================================================
+   LABELS & INPUT CONTROLS
+========================================================= */
+
+.contact-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.contact-input,
+input.contact-input,
+select.contact-input,
+textarea.contact-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  outline: none;
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.contact-input::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+.contact-input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow:
+    0 0 0 3px var(--accent-glow),
+    0 0 18px var(--accent-glow) !important;
+}
+
+/* Select Box Fixes */
+.contact-select {
+  cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}
+
+.contact-select option {
+  background-color: #11131a !important;
+  color: #ffffff !important;
+}
+
+html[data-maintenance-theme="light"] .contact-select option {
+  background-color: #ffffff !important;
+  color: #111318 !important;
+}
+
+/* Textarea Custom Height */
+.contact-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Input Error State */
+.contact-input.input-error {
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.5) !important;
+  animation: contactShake 0.3s ease-in-out;
+}
+
+@keyframes contactShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* =========================================================
+   SUBMIT BUTTON STYLES
+========================================================= */
+
+.contact-submit-btn {
+  min-width: 190px;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 30px;
+  background: linear-gradient(
+    135deg,
+    #8f0000,
+    #ff1f1f,
+    #d60000
+  ) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 28px rgba(255, 31, 31, 0.22);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.contact-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 14px 35px rgba(255, 31, 31, 0.38);
+}
+
+.contact-submit-btn:focus {
+  color: #ffffff !important;
+  box-shadow:
+    0 0 0 0.25rem rgba(255, 31, 31, 0.22),
+    0 10px 28px rgba(255, 31, 31, 0.22);
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Status Notifications */
+.status-alert {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.status-alert.success { color: #36b37e; }
+.status-alert.error { color: #f44336; }
+
+/* =========================================================
+   REVEAL ANIMATION SYSTEM
+========================================================= */
+
+.contact-reveal {
+  opacity: 0;
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.contact-reveal.reveal-left { transform: translate3d(-30px, 0, 0); }
+.contact-reveal.reveal-right { transform: translate3d(30px, 0, 0); }
+
+.contact-reveal.revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes contactOrbFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(40px, 25px, 0); }
+}
+
+/* =========================================================
+   RESPONSIVENESS MEDIA QUERIES (Mobile to Ultra-Wide)
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .contact-section { padding: 60px 16px; }
+  .contact-form-card { padding: 30px 24px; }
+}
+
+@media (max-width: 767.98px) {
+  .contact-section {
+    min-height: auto;
+    padding: 40px 12px;
+  }
+  .contact-form-card {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+  .contact-submit-btn { width: 100%; }
+}
+
+@media (max-width: 575.98px) {
+  .contact-section { padding: 30px 8px; }
+  .contact-form-card {
+    padding: 20px 12px;
+    border-radius: 16px;
+  }
+  .contact-input {
+    min-height: 46px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  .contact-label {
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-bg-orb,
+  .contact-input.input-error { animation: none; }
+  .contact-reveal,
+  .contact-reveal.reveal-left,
+  .contact-reveal.reveal-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

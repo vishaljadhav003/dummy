@@ -1,0 +1,1525 @@
+/* =========================================================
+   MOTIONPIX — PREMIUM MAINTENANCE PAGE
+========================================================= */
+
+.maintenance-page {
+  --maintenance-bg: #08090d;
+  --maintenance-bg-secondary: #101218;
+  --maintenance-card: rgba(18, 20, 28, 0.72);
+  --maintenance-text: #ffffff;
+  --maintenance-muted: #9da1aa;
+  --maintenance-border: rgba(255, 255, 255, 0.1);
+  --maintenance-accent: #ff3b3b;
+  --maintenance-glow: rgba(255, 59, 59, 0.28);
+
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(255, 59, 59, 0.08),
+      transparent 38%
+    ),
+    var(--maintenance-bg);
+
+  color: var(--maintenance-text);
+
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
+}
+
+html[data-maintenance-theme="light"] .maintenance-page {
+  --maintenance-bg: #f5f6f8;
+  --maintenance-bg-secondary: #ffffff;
+  --maintenance-card: rgba(255, 255, 255, 0.76);
+  --maintenance-text: #111318;
+  --maintenance-muted: #626873;
+  --maintenance-border: rgba(15, 18, 25, 0.1);
+  --maintenance-accent: #e52f2f;
+  --maintenance-glow: rgba(229, 47, 47, 0.2);
+}
+
+/* =========================================================
+   PREMIUM LOADER
+========================================================= */
+
+.maintenance-loader {
+  position: fixed;
+  inset: 0;
+
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 59, 59, 0.08),
+      transparent 38%
+    ),
+    #08090d;
+
+  pointer-events: none;
+
+  /* Delay = loadingDuration (6100ms) + the 450ms finish pause in Maintenance.jsx,
+     so the exit fade only starts once the logo animation video has finished. */
+  animation:
+    loaderExit
+    0.75s
+    ease
+    6.55s
+    forwards;
+}
+
+.maintenance-loader-inner {
+  position: relative;
+
+  width: min(360px, 82vw);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+/* =========================================================
+   LOADER LOGO ANIMATION VIDEO
+========================================================= */
+
+.maintenance-loader-logo {
+  position: relative;
+
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 16 / 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 24px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 59, 59, 0.35);
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.015)
+    );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 0 25px rgba(255, 59, 59, 0.12),
+    0 0 70px rgba(255, 59, 59, 0.08),
+    inset 0 0 25px rgba(255, 59, 59, 0.04);
+
+  animation:
+    loaderLogoReveal
+    1s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.maintenance-loader-logo::before {
+  content: "";
+
+  position: absolute;
+  inset: -8px;
+
+  border: 1px solid rgba(255, 59, 59, 0.18);
+  border-radius: 24px;
+
+  animation:
+    loaderLogoGlow
+    2s
+    ease-in-out
+    infinite;
+}
+
+.maintenance-loader-video {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: inherit;
+
+  animation:
+    loaderLogoImage
+    1.2s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+/* =========================================================
+   LOADER BRAND
+========================================================= */
+
+.maintenance-loader-brand {
+  margin-top: 2px;
+
+  color: #ffffff;
+
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  font-weight: 800;
+
+  letter-spacing: 0.22em;
+
+  text-transform: uppercase;
+
+  animation:
+    loaderTextReveal
+    0.9s
+    ease
+    0.2s
+    both;
+}
+
+.maintenance-loader-brand span {
+  color: #ff3b3b;
+
+  text-shadow:
+    0 0 18px
+    rgba(255, 59, 59, 0.35);
+}
+
+/* =========================================================
+   LOADER PERCENTAGE
+========================================================= */
+
+.maintenance-loader-percent {
+  margin-top: 22px;
+
+  min-height: 58px;
+
+  color: #ffffff;
+
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+
+  font-variant-numeric: tabular-nums;
+
+  text-shadow:
+    0 0 25px
+    rgba(255, 59, 59, 0.18);
+
+  animation:
+    loaderTextReveal
+    0.9s
+    ease
+    0.35s
+    both;
+}
+
+/* =========================================================
+   LOADER PROGRESS BAR
+========================================================= */
+
+.maintenance-loader-line {
+  position: relative;
+
+  width: 100%;
+  height: 3px;
+
+  margin-top: 20px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.09);
+
+  box-shadow:
+    inset 0 0 8px
+    rgba(255, 255, 255, 0.04);
+}
+
+.maintenance-loader-line span {
+  position: relative;
+
+  display: block;
+
+  width: 0;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #8f0000,
+      #ff3b3b,
+      #ff6b6b
+    );
+
+  box-shadow:
+    0 0 12px
+    rgba(255, 59, 59, 0.7),
+    0 0 25px
+    rgba(255, 59, 59, 0.35);
+
+  transition:
+    width 0.06s linear;
+}
+
+.maintenance-loader-line span::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  width: 18px;
+  height: 18px;
+
+  transform:
+    translate(50%, -50%);
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 8px #ffffff,
+    0 0 18px #ff3b3b,
+    0 0 30px
+    rgba(255, 59, 59, 0.8);
+}
+
+/* =========================================================
+   LOADER STATUS
+========================================================= */
+
+.maintenance-loader p {
+  margin: 15px 0 0;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 0.62rem;
+  font-weight: 700;
+
+  letter-spacing: 0.25em;
+
+  text-transform: uppercase;
+
+  animation:
+    loaderTextReveal
+    0.9s
+    ease
+    0.45s
+    both;
+}
+
+/* =========================================================
+   LOADER ANIMATIONS
+========================================================= */
+
+@keyframes loaderLogoReveal {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px)
+      scale(0.78)
+      rotate(-8deg);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1)
+      rotate(0);
+  }
+}
+
+@keyframes loaderLogoImage {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes loaderLogoGlow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes loaderTextReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loaderExit {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.maintenance-grid {
+  position: fixed;
+  inset: 0;
+
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 55px 55px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black 0%,
+      rgba(0, 0, 0, 0.8) 45%,
+      transparent 100%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      black 0%,
+      rgba(0, 0, 0, 0.8) 45%,
+      transparent 100%
+    );
+}
+
+html[data-maintenance-theme="light"] .maintenance-grid {
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.035) 1px,
+      transparent 1px
+    );
+}
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.maintenance-noise {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1;
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* =========================================================
+   ORBS
+========================================================= */
+
+.maintenance-orb {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(110px);
+
+  opacity: 0.18;
+
+  z-index: 0;
+}
+
+.maintenance-orb-one {
+  top: -180px;
+  left: -120px;
+
+  background: var(--maintenance-accent);
+
+  animation:
+    maintenanceFloatOne
+    10s
+    ease-in-out
+    infinite;
+}
+
+.maintenance-orb-two {
+  top: 30%;
+  right: -200px;
+
+  background: var(--maintenance-accent);
+
+  animation:
+    maintenanceFloatTwo
+    12s
+    ease-in-out
+    infinite;
+}
+
+.maintenance-orb-three {
+  bottom: -250px;
+  left: 35%;
+
+  background: #6f4cff;
+
+  animation:
+    maintenanceFloatThree
+    14s
+    ease-in-out
+    infinite;
+}
+
+/* =========================================================
+   THEME TOGGLE
+========================================================= */
+
+.maintenance-theme-toggle {
+  position: fixed;
+
+  top: 24px;
+  right: 24px;
+
+  z-index: 100;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  padding: 0;
+
+  border: 1px solid var(--maintenance-border);
+  border-radius: 50%;
+
+  background: var(--maintenance-card);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  color: var(--maintenance-accent);
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.maintenance-theme-toggle i {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.maintenance-theme-toggle:hover {
+  transform:
+    translateY(-2px)
+    rotate(12deg);
+
+  border-color: var(--maintenance-accent);
+
+  box-shadow:
+    0 12px 35px var(--maintenance-glow);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.maintenance-hero {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px 24px 100px;
+
+  text-align: center;
+}
+
+.maintenance-content {
+  width: 100%;
+  max-width: 950px;
+
+  margin: 0 auto;
+}
+
+/* =========================================================
+   MAINTENANCE VISUAL
+========================================================= */
+
+.maintenance-visual {
+  position: relative;
+
+  width: 170px;
+  height: 170px;
+
+  margin: 0 auto 34px;
+}
+
+.maintenance-visual-ring {
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid var(--maintenance-border);
+  border-radius: 50%;
+}
+
+.ring-one {
+  border-top-color: var(--maintenance-accent);
+
+  animation:
+    maintenanceSpin
+    9s
+    linear
+    infinite;
+}
+
+.ring-two {
+  inset: 18px;
+
+  border-right-color: var(--maintenance-accent);
+
+  animation:
+    maintenanceSpinReverse
+    7s
+    linear
+    infinite;
+}
+
+.ring-three {
+  inset: 38px;
+
+  border-bottom-color: var(--maintenance-accent);
+
+  animation:
+    maintenanceSpin
+    5s
+    linear
+    infinite;
+}
+
+.maintenance-visual-core {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  transform:
+    translate(-50%, -50%);
+
+  border: 1px solid var(--maintenance-border);
+  border-radius: 50%;
+
+  background: var(--maintenance-card);
+
+  box-shadow:
+    0 0 30px var(--maintenance-glow),
+    inset 0 0 18px var(--maintenance-glow);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  color: var(--maintenance-accent);
+
+  animation:
+    maintenanceCorePulse
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+.maintenance-visual-core i {
+  font-size: 1.5rem;
+
+  animation:
+    maintenanceGearSpin
+    5s
+    linear
+    infinite;
+}
+
+.maintenance-visual-dot {
+  position: absolute;
+
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--maintenance-accent);
+
+  box-shadow:
+    0 0 16px var(--maintenance-accent);
+}
+
+.dot-one {
+  top: 10px;
+  left: 50%;
+
+  animation:
+    maintenanceDotPulse
+    1.8s
+    ease-in-out
+    infinite;
+}
+
+.dot-two {
+  right: 14px;
+  bottom: 30px;
+
+  animation:
+    maintenanceDotPulse
+    2.1s
+    ease-in-out
+    infinite;
+}
+
+.dot-three {
+  left: 18px;
+  bottom: 26px;
+
+  animation:
+    maintenanceDotPulse
+    2.4s
+    ease-in-out
+    infinite;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.maintenance-badge {
+  display: inline-flex;
+
+  align-items: center;
+  gap: 10px;
+
+  padding: 9px 16px;
+
+  border: 1px solid var(--maintenance-border);
+  border-radius: 999px;
+
+  background: var(--maintenance-card);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  color: var(--maintenance-muted);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.1);
+}
+
+.maintenance-dot {
+  width: 8px;
+  height: 8px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--maintenance-accent);
+
+  box-shadow:
+    0 0 0 5px var(--maintenance-glow),
+    0 0 20px var(--maintenance-accent);
+
+  animation:
+    dotPulse
+    1.8s
+    ease-in-out
+    infinite;
+}
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.maintenance-eyebrow {
+  margin: 34px 0 0;
+
+  color: var(--maintenance-accent);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.28em;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.maintenance-title {
+  margin: 18px 0 0;
+
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
+
+  font-weight: 900;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.065em;
+
+  color: var(--maintenance-text);
+}
+
+.maintenance-title span {
+  color: var(--maintenance-accent);
+
+  text-shadow:
+    0 0 35px var(--maintenance-glow);
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.maintenance-description {
+  max-width: 680px;
+
+  margin: 30px auto 0;
+
+  color: var(--maintenance-muted);
+
+  font-size: clamp(1rem, 2vw, 1.18rem);
+
+  line-height: 1.8;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.maintenance-divider {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 140px;
+  height: 2px;
+
+  margin: 35px auto;
+}
+
+.maintenance-divider::before,
+.maintenance-divider::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--maintenance-border)
+    );
+}
+
+.maintenance-divider::after {
+  background:
+    linear-gradient(
+      90deg,
+      var(--maintenance-border),
+      transparent
+    );
+}
+
+.maintenance-divider span {
+  width: 7px;
+  height: 7px;
+
+  margin: 0 8px;
+
+  border-radius: 50%;
+
+  background: var(--maintenance-accent);
+
+  box-shadow:
+    0 0 15px var(--maintenance-accent);
+}
+
+/* =========================================================
+   EMAIL
+========================================================= */
+
+.maintenance-contact-label {
+  margin: 0 0 8px;
+
+  color: var(--maintenance-muted);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.maintenance-email {
+  display: inline-block;
+
+  color: var(--maintenance-text);
+
+  font-size: clamp(1.15rem, 3vw, 1.7rem);
+
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.maintenance-email:hover {
+  color: var(--maintenance-accent);
+
+  transform:
+    translateY(-2px);
+
+  text-shadow:
+    0 0 25px var(--maintenance-glow);
+}
+
+.maintenance-note {
+  margin: 12px 0 0;
+
+  color: var(--maintenance-muted);
+
+  font-size: 0.88rem;
+}
+
+/* =========================================================
+   SCROLL HINT
+========================================================= */
+
+.maintenance-scroll-hint {
+  display: inline-flex;
+
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 60px;
+
+  color: var(--maintenance-muted);
+
+  font-size: 0.65rem;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+}
+
+.scroll-line {
+  display: block;
+
+  width: 42px;
+  height: 1px;
+
+  background: var(--maintenance-accent);
+
+  box-shadow:
+    0 0 10px var(--maintenance-glow);
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.maintenance-contact-wrapper {
+  position: relative;
+
+  z-index: 3;
+
+  padding: 70px 0 0;
+}
+
+/* =========================================================
+   BIDIRECTIONAL SCROLL REVEAL
+========================================================= */
+
+.reveal {
+  opacity: 0;
+
+  transition:
+    opacity 0.9s
+      cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s
+      cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left {
+  transform:
+    translate3d(-70px, 0, 0);
+}
+
+.reveal-right {
+  transform:
+    translate3d(70px, 0, 0);
+}
+
+.reveal-up {
+  transform:
+    translate3d(0, 55px, 0);
+}
+
+.reveal.revealed {
+  opacity: 1;
+
+  transform:
+    translate3d(0, 0, 0);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.maintenance-footer {
+  position: relative;
+
+  z-index: 3;
+
+  margin-top: 0;
+
+  background: var(--maintenance-bg-secondary);
+
+  color: var(--maintenance-text);
+
+  border-top: 1px solid var(--maintenance-border);
+}
+
+.maintenance-footer .footer-bottom {
+  margin-top: 0;
+
+  background: transparent;
+
+  border-top: none;
+}
+
+.maintenance-footer .brand-text,
+.maintenance-footer .copyright-text {
+  color: var(--maintenance-text);
+}
+
+.maintenance-footer .footer-credit,
+.maintenance-footer .footer-credit-premium,
+.maintenance-footer .footer-datetime,
+.maintenance-footer .footer-location {
+  color: var(--maintenance-muted);
+}
+
+/* =========================================================
+   FOOTER PREMIUM HIGHLIGHT & BOUNCE ANIMATION
+========================================================= */
+
+/* Heart Bounce & Glow Animation */
+.heart-beat {
+  display: inline-block;
+  color: #ff3b3b;
+  font-style: normal;
+  animation: heartBounce 1.2s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
+  filter: drop-shadow(0 0 6px rgba(255, 59, 59, 0.8));
+}
+
+@keyframes heartBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.45);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1.3);
+  }
+}
+
+/* Premium Highlight Link Styling */
+.maintenance-footer .premium-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #ffffff 0%, #ff3b3b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: rgba(255, 59, 59, 0.08);
+  border: 1px solid rgba(255, 59, 59, 0.25);
+  box-shadow: 0 0 12px rgba(255, 59, 59, 0.15);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.maintenance-footer .premium-link:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(255, 59, 59, 0.6);
+  box-shadow: 0 4px 20px rgba(255, 59, 59, 0.35);
+}
+
+html[data-maintenance-theme="light"] .maintenance-footer .premium-link {
+  color: #111318 !important;
+  background: linear-gradient(135deg, #111318 0%, #e52f2f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: rgba(229, 47, 47, 0.06);
+  border-color: rgba(229, 47, 47, 0.2);
+}
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+
+@keyframes maintenanceFloatOne {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(80px, 55px, 0);
+  }
+}
+
+@keyframes maintenanceFloatTwo {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-70px, -50px, 0);
+  }
+}
+
+@keyframes maintenanceFloatThree {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(50px, -40px, 0);
+  }
+}
+
+@keyframes maintenanceSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes maintenanceSpinReverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes maintenanceGearSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes maintenanceCorePulse {
+  0%,
+  100% {
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate(-50%, -50%)
+      scale(1.08);
+  }
+}
+
+@keyframes maintenanceDotPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.55;
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+  }
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+  .maintenance-hero {
+    padding: 120px 24px 90px;
+  }
+
+  .maintenance-orb {
+    width: 330px;
+    height: 330px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+  .maintenance-theme-toggle {
+    top: 16px;
+    right: 16px;
+
+    width: 42px;
+    height: 42px;
+  }
+
+  .maintenance-hero {
+    min-height: 92vh;
+
+    padding: 100px 20px 70px;
+  }
+
+  .maintenance-title {
+    font-size:
+      clamp(2.7rem, 13vw, 4.5rem);
+  }
+
+  .maintenance-description {
+    line-height: 1.7;
+  }
+
+  .maintenance-badge {
+    padding: 8px 13px;
+
+    font-size: 0.63rem;
+
+    letter-spacing: 0.1em;
+  }
+
+  .maintenance-eyebrow {
+    font-size: 0.62rem;
+
+    letter-spacing: 0.2em;
+  }
+
+  .maintenance-scroll-hint {
+    margin-top: 45px;
+  }
+
+  .maintenance-contact-wrapper {
+    padding-top: 45px;
+  }
+
+  .maintenance-orb {
+    width: 250px;
+    height: 250px;
+
+    filter: blur(85px);
+  }
+
+  .reveal-left {
+    transform:
+      translate3d(-40px, 0, 0);
+  }
+
+  .reveal-right {
+    transform:
+      translate3d(40px, 0, 0);
+  }
+
+  .maintenance-loader-inner {
+    width: min(320px, 82vw);
+  }
+
+  .maintenance-loader-brand {
+    font-size: 0.85rem;
+
+    letter-spacing: 0.17em;
+  }
+
+  .maintenance-loader-percent {
+    margin-top: 18px;
+
+    font-size: 2.5rem;
+  }
+
+  .maintenance-loader-line {
+    margin-top: 17px;
+  }
+
+  .maintenance-loader p {
+    font-size: 0.55rem;
+
+    letter-spacing: 0.19em;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 575.98px) {
+  .maintenance-theme-toggle {
+    top: 12px;
+    right: 12px;
+
+    width: 40px;
+    height: 40px;
+  }
+
+  .maintenance-hero {
+    padding: 90px 16px 55px;
+  }
+
+  .maintenance-visual {
+    width: 125px;
+    height: 125px;
+
+    margin-bottom: 25px;
+  }
+
+  .maintenance-visual-core {
+    width: 52px;
+    height: 52px;
+  }
+
+  .maintenance-visual-core i {
+    font-size: 1.25rem;
+  }
+
+  .maintenance-title {
+    font-size:
+      clamp(2.4rem, 14vw, 3.8rem);
+
+    letter-spacing: -0.045em;
+  }
+
+  .maintenance-description {
+    font-size: 0.94rem;
+  }
+
+  .maintenance-email {
+    max-width: 100%;
+
+    font-size: 1rem;
+
+    word-break: break-word;
+  }
+
+  .maintenance-note {
+    font-size: 0.8rem;
+  }
+
+  .maintenance-orb {
+    width: 200px;
+    height: 200px;
+  }
+
+  .maintenance-loader-inner {
+    width: calc(100% - 48px);
+  }
+
+  .maintenance-loader-logo {
+    margin-bottom: 20px;
+  }
+
+  .maintenance-loader-brand {
+    font-size: 0.72rem;
+
+    letter-spacing: 0.14em;
+  }
+
+  .maintenance-loader-percent {
+    min-height: 45px;
+
+    margin-top: 16px;
+
+    font-size: 2.15rem;
+  }
+
+  .maintenance-loader-line {
+    height: 2px;
+  }
+
+  .maintenance-loader-line span::after {
+    width: 13px;
+    height: 13px;
+  }
+
+  .maintenance-loader p {
+    margin-top: 12px;
+
+    font-size: 0.48rem;
+
+    letter-spacing: 0.14em;
+  }
+
+  .maintenance-footer .footer-credit,
+  .maintenance-footer .footer-credit-premium,
+  .maintenance-footer .footer-datetime,
+  .maintenance-footer .footer-location {
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-loader,
+  .maintenance-loader-logo,
+  .maintenance-loader-logo::before,
+  .maintenance-loader-video,
+  .maintenance-loader-line span,
+  .maintenance-orb,
+  .maintenance-dot,
+  .maintenance-visual-ring,
+  .maintenance-visual-core,
+  .maintenance-visual-core i,
+  .maintenance-visual-dot {
+    animation: none !important;
+  }
+
+  .maintenance-loader {
+    display: none;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-up {
+    opacity: 1;
+
+    transform: none;
+
+    transition: none;
+  }
+}
