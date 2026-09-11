@@ -1,7 +1,7 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useEffect, useState } from "react";
 import "./Maintenance.css";
-import Contact from "./Contact";
+// import Contact from "./Contact";
 import Logo from "/Logo.png";
 import LogoAnimation from "/Logo_animation_1.mp4";
 import { NavLink } from "react-router-dom";
@@ -11,7 +11,7 @@ const Maintenance = () => {
   const [loadingPercent, setLoadingPercent] = useState(0);
   const [isDark, setIsDark] = useState(true);
   const [dateTime, setDateTime] = useState(new Date());
-  const [location, setLocation] = useState("Detecting location...");
+  // const [location, setLocation] = useState("Detecting location...");
 
   /* =========================================================
      LOADER
@@ -103,85 +103,85 @@ const Maintenance = () => {
      LOCATION
   ========================================================= */
 
-  useEffect(() => {
-    const getUserLocation = async () => {
-      if (!("geolocation" in navigator)) {
-        setLocation("Location not supported");
-        return;
-      }
+  // useEffect(() => {
+  //   const getUserLocation = async () => {
+  //     if (!("geolocation" in navigator)) {
+  //       setLocation("Location not supported");
+  //       return;
+  //     }
 
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
+  //     navigator.geolocation.getCurrentPosition(
+  //       async (position) => {
+  //         const lat = position.coords.latitude;
+  //         const lon = position.coords.longitude;
 
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`,
-              {
-                headers: {
-                  Accept: "application/json",
-                },
-              }
-            );
+  //         try {
+  //           const res = await fetch(
+  //             `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`,
+  //             {
+  //               headers: {
+  //                 Accept: "application/json",
+  //               },
+  //             }
+  //           );
 
-            if (!res.ok) {
-              throw new Error("Failed to fetch location");
-            }
+  //           if (!res.ok) {
+  //             throw new Error("Failed to fetch location");
+  //           }
 
-            const data = await res.json();
-            const address = data?.address || {};
+  //           const data = await res.json();
+  //           const address = data?.address || {};
 
-            const cityName =
-              address.city ||
-              address.town ||
-              address.village ||
-              address.hamlet ||
-              address.suburb ||
-              address.neighbourhood ||
-              address.city_district ||
-              address.state_district ||
-              address.county ||
-              address.municipality ||
-              address.state ||
-              "";
+  //           const cityName =
+  //             address.city ||
+  //             address.town ||
+  //             address.village ||
+  //             address.hamlet ||
+  //             address.suburb ||
+  //             address.neighbourhood ||
+  //             address.city_district ||
+  //             address.state_district ||
+  //             address.county ||
+  //             address.municipality ||
+  //             address.state ||
+  //             "";
 
-            const countryName = address.country || "";
+  //           const countryName = address.country || "";
 
-            if (cityName && countryName) {
-              setLocation(`${cityName}, ${countryName}`);
-            } else if (cityName) {
-              setLocation(cityName);
-            } else if (countryName) {
-              setLocation(countryName);
-            } else {
-              setLocation("Location unavailable");
-            }
-          } catch (error) {
-            setLocation("Location unavailable");
-          }
-        },
-        (error) => {
-          if (error.code === error.PERMISSION_DENIED) {
-            setLocation("Location permission denied");
-          } else if (error.code === error.POSITION_UNAVAILABLE) {
-            setLocation("Location unavailable");
-          } else if (error.code === error.TIMEOUT) {
-            setLocation("Location request timed out");
-          } else {
-            setLocation("Location unavailable");
-          }
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        }
-      );
-    };
+  //           if (cityName && countryName) {
+  //             setLocation(`${cityName}, ${countryName}`);
+  //           } else if (cityName) {
+  //             setLocation(cityName);
+  //           } else if (countryName) {
+  //             setLocation(countryName);
+  //           } else {
+  //             setLocation("Location unavailable");
+  //           }
+  //         } catch (error) {
+  //           setLocation("Location unavailable");
+  //         }
+  //       },
+  //       (error) => {
+  //         if (error.code === error.PERMISSION_DENIED) {
+  //           setLocation("Location permission denied");
+  //         } else if (error.code === error.POSITION_UNAVAILABLE) {
+  //           setLocation("Location unavailable");
+  //         } else if (error.code === error.TIMEOUT) {
+  //           setLocation("Location request timed out");
+  //         } else {
+  //           setLocation("Location unavailable");
+  //         }
+  //       },
+  //       {
+  //         enableHighAccuracy: true,
+  //         timeout: 10000,
+  //         maximumAge: 0,
+  //       }
+  //     );
+  //   };
 
-    getUserLocation();
-  }, []);
+  //   getUserLocation();
+  // }, []);
 
   /* =========================================================
      THEME TOGGLE
@@ -423,10 +423,10 @@ const Maintenance = () => {
 
           {/* SCROLL HINT */}
 
-          <div className="maintenance-scroll-hint">
+          {/* <div className="maintenance-scroll-hint">
             <span className="scroll-line"></span>
             <span>SCROLL TO CONNECT</span>
-          </div>
+          </div> */}
 
         </div>
       </section>
@@ -435,9 +435,9 @@ const Maintenance = () => {
           CONTACT - DIRECT FORM ONLY
       ===================================================== */}
 
-      <section className="maintenance-contact-wrapper">
+      {/* <section className="maintenance-contact-wrapper">
         <Contact />
-      </section>
+      </section> */}
 
       {/* =====================================================
           EXACT FOOTER WITH HIGHLIGHT & ANIMATED HEART
@@ -496,9 +496,9 @@ const Maintenance = () => {
                   {formattedTime}
                 </span>
 
-                <span className="footer-location">
+                {/* <span className="footer-location">
                   📍 {location}
-                </span>
+                </span> */}
 
               </div>
 
