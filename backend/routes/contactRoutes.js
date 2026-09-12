@@ -17,46 +17,8 @@ router.post("/contact", contactController.createContact);
 // ============================================================
 // PROTECTED ADMIN ROUTES
 // ============================================================
-
-router.get("/admin", auth, contactController.getContacts);
 router.get("/complete/:id", auth, contactController.markComplete);
 router.get("/delete/:id", auth, contactController.deleteContact);
-
-// ============================================================
-// LOGIN PAGE
-// ============================================================
-
-router.get("/login", (req, res) => {
-  res.render("login");
-});
-
-// ============================================================
-// LOGIN POST
-// ============================================================
-
-router.post("/login", (req, res) => {
-  const { username, password } = req.body;
-
-  const sql =
-    "SELECT * FROM admin WHERE username=? AND password=?";
-
-  db.query(sql, [username, password], (err, result) => {
-    if (err) {
-      console.error("❌ Login DB Error:", err);
-      return res.status(500).send("Server error");
-    }
-
-    if (result.length > 0) {
-      req.session.user = result[0];
-      req.session.isAuth = true;
-
-      return res.redirect("/admin");
-    }
-
-    return res.send("Invalid credentials");
-  });
-});
-
 // ============================================================
 // AI CHAT
 // ============================================================
@@ -396,16 +358,6 @@ Contact Number: +91 98220 55205
       reply: "Error getting AI response. Please try again.",
     });
   }
-});
-
-// ============================================================
-// LOGOUT
-// ============================================================
-
-router.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/api/login");
-  });
 });
 
 // ============================================================
