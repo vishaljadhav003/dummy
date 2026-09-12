@@ -1,7 +1,7 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useEffect, useState } from "react";
 import "./Maintenance.css";
-// import Contact from "./Contact";
+import Contact from "./Contact";
 import Logo from "/Logo.png";
 import LogoAnimation from "/Logo_animation_1.mp4";
 import { NavLink } from "react-router-dom";
@@ -435,9 +435,9 @@ const Maintenance = () => {
           CONTACT - DIRECT FORM ONLY
       ===================================================== */}
 
-      {/* <section className="maintenance-contact-wrapper">
+      <section className="maintenance-contact-wrapper">
         <Contact />
-      </section> */}
+      </section>
 
       {/* =====================================================
           EXACT FOOTER WITH HIGHLIGHT & ANIMATED HEART
