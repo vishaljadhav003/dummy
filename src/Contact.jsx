@@ -108,7 +108,7 @@ const Contact = () => {
      NATIVE SEO & SCHEMA INJECTION
   ===================================================== */
   useEffect(() => {
-    document.title = "Contact Us - MotionPix | Animation & Web Development Studio";
+    // document.title = "Contact Us - MotionPix | Animation & Web Development Studio";
 
     const schemaData = {
       "@context": "https://schema.org",
