@@ -129,11 +129,41 @@ app.get("/login", (req, res) => {
 
 app.get("/admin", auth, async (req, res) => {
   try {
-    const [submissions] = await db.promise().query(
-      "SELECT * FROM contacts"
-    );
+    const { search = "", status = "" } = req.query;
 
-    res.render("admin", { submissions });
+    let sql = `
+      SELECT * FROM contacts
+      WHERE 1 = 1
+    `;
+    const params = [];
+
+    if (search) {
+      sql += `
+        AND (
+          fname LIKE ?
+          OR lname LIKE ?
+          OR email LIKE ?
+        )
+      `;
+
+      const searchValue = `%${search}%`;
+      params.push(searchValue, searchValue, searchValue);
+    }
+
+    if (status) {
+      sql += " AND status = ?";
+      params.push(status);
+    }
+
+    sql += " ORDER BY id DESC";
+
+    const [submissions] = await db.promise().query(sql, params);
+
+    res.render("admin", {
+      submissions,
+      search,
+      status
+    });
   } catch (error) {
     console.error("ADMIN DATABASE ERROR:", error);
     res.status(500).send("Unable to load admin panel");
