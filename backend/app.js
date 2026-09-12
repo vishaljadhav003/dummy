@@ -1,3 +1,4 @@
+const db = require("./config/db");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -101,6 +102,22 @@ app.use("/api", (req, res) => {
     success: false,
     message: "API route not found",
   });
+});
+
+
+// ================= ADMIN PANEL =================
+
+app.get("/admin", async (req, res) => {
+  try {
+    const [submissions] = await db.promise().query(
+      "SELECT * FROM contacts ORDER BY created_at DESC"
+    );
+
+    res.render("admin", { submissions });
+  } catch (error) {
+    console.error("Admin panel error:", error);
+    res.status(500).send("Unable to load admin panel");
+  }
 });
 
 // ================= FRONTEND =================
