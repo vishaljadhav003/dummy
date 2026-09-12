@@ -76,7 +76,11 @@ exports.getContacts = (req, res) => {
 
 // ================= CREATE CONTACT =================
 exports.createContact = async (req, res) => {
-  const io = req.app.get("io");
+const io = req.app.get("io");
+
+if (io) {
+  io.emit("newContact", savedContact);
+}
 
   const { fname, lname, email, services, contact, msg } = req.body;
 
