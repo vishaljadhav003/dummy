@@ -121,11 +121,8 @@ app.get("/admin", async (req, res) => {
 
     res.render("admin", { submissions });
   } catch (error) {
-    console.error("ADMIN ERROR:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    console.error("ADMIN DATABASE ERROR:", error);
+    res.status(500).send("Unable to load admin panel");
   }
 });
 
