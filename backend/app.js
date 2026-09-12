@@ -1,11 +1,11 @@
-const db = require("./config/db");
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const session = require("express-session");
 const http = require("http");
 const { Server } = require("socket.io");
-require("dotenv").config();
+const db = require("./config/db");
 
 const contactRoutes = require("./routes/contactRoutes");
 
