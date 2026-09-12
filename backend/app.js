@@ -50,11 +50,13 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
 
     cookie: {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
+      path: "/",
       maxAge: 1000 * 60 * 60 * 24,
     },
   })
@@ -104,10 +106,23 @@ app.post("/api/login", (req, res) => {
     password === process.env.ADMIN_PASSWORD
   ) {
     req.session.isAuth = true;
-    return res.redirect("/admin");
+
+   return req.session.save((err) => {
+  if (err) {
+    console.error("SESSION SAVE ERROR:", err);
+    return res.status(500).send("Unable to create login session");
   }
 
-  res.status(401).send("Invalid username or password");
+  console.log("LOGIN SESSION:", {
+    sessionID: req.sessionID,
+    isAuth: req.session.isAuth,
+  });
+
+  return res.redirect("/admin");
+});
+  }
+
+  return res.status(401).send("Invalid username or password");
 });
 
 // ================= API ROUTES =================
@@ -171,8 +186,20 @@ app.get("/admin", auth, async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/login");
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("LOGOUT ERROR:", err);
+      return res.status(500).send("Unable to logout");
+    }
+
+    res.clearCookie("connect.sid", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+    });
+
+    return res.redirect("/login");
   });
 });
 
