@@ -78,10 +78,21 @@ exports.getContacts = (req, res) => {
 exports.createContact = async (req, res) => {
 const io = req.app.get("io");
 
-if (io) {
-  io.emit("newContact", savedContact);
-}
+const newContact = {
+  id: result.insertId,
+  fname,
+  lname,
+  email,
+  services,
+  contact,
+  msg,
+  status: "pending",
+  created_at: new Date(),
+};
 
+if (io) {
+  io.emit("newContact", newContact);
+}
   const { fname, lname, email, services, contact, msg } = req.body;
 
   const sql =
