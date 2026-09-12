@@ -110,13 +110,16 @@ app.use("/api", (req, res) => {
 app.get("/admin", async (req, res) => {
   try {
     const [submissions] = await db.promise().query(
-      "SELECT * FROM contacts ORDER BY created_at DESC"
+      "SELECT * FROM contacts"
     );
 
     res.render("admin", { submissions });
   } catch (error) {
-    console.error("Admin panel error:", error);
-    res.status(500).send("Unable to load admin panel");
+    console.error("ADMIN ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 });
 
