@@ -153,28 +153,35 @@
   <div class="brand">🚀 MotionPix Admin</div>
   <div class="subtitle">Secure Dashboard Login</div>
 
-  <form id="loginForm" method="POST" action="/api/login">
+ <form id="loginForm" method="POST" action="/api/login">
+  <div class="mb-3">
+    <input
+      type="text"
+      name="username"
+      class="form-control"
+      placeholder="Username"
+      required
+    >
+  </div>
 
-    <input type="text" name="username"
-      class="form-control mb-3"
-      placeholder="Enter Username"
-      required>
+  <div class="password-box mb-3">
+    <input
+      id="password"
+      type="password"
+      name="password"
+      class="form-control"
+      placeholder="Password"
+      required
+    >
 
-    <div class="password-box mb-3">
-      <input type="password" id="password" name="password"
-        class="form-control"
-        placeholder="Enter Password"
-        required>
+    <span class="toggle-eye" onclick="togglePassword()">👁️</span>
+  </div>
 
-      <span class="toggle-eye" onclick="togglePassword()">👁️</span>
-    </div>
-
-    <button class="btn-login" id="loginBtn">
-      <span>Login</span>
-      <div class="spinner" id="spinner"></div>
-    </button>
-
-  </form>
+  <button type="submit" class="btn-login">
+    Login
+    <span id="spinner" class="spinner"></span>
+  </button>
+</form>
 
 </div>
 
