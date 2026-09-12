@@ -6,6 +6,7 @@ const session = require("express-session");
 const http = require("http");
 const { Server } = require("socket.io");
 const db = require("./config/db");
+const auth = require("./middleware/auth");
 
 const contactRoutes = require("./routes/contactRoutes");
 
@@ -104,16 +105,25 @@ app.use("/api", (req, res) => {
   });
 });
 
-app.get("/admin-test", (req, res) => {
-  console.log("NEW APP.JS IS LIVE");
-  res.render("admin", {
-    submissions: []
-  });
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
-// ================= ADMIN PANEL =================
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
 
-app.get("/admin", async (req, res) => {
+  if (
+    username === process.env.ADMIN_USERNAME &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    req.session.isAuth = true;
+    return res.redirect("/admin");
+  }
+
+  res.status(401).send("Invalid username or password");
+});
+
+app.get("/admin", auth, async (req, res) => {
   try {
     const [submissions] = await db.promise().query(
       "SELECT * FROM contacts"
@@ -126,11 +136,11 @@ app.get("/admin", async (req, res) => {
   }
 });
 
-
-app.get("/health-test", (req, res) => {
-  res.type("text").send("NEW APP.JS IS LIVE");
+app.post("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/login");
+  });
 });
-
 
 // ================= FRONTEND =================
 
