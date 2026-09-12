@@ -63,13 +63,13 @@ exports.getContacts = (req, res) => {
     db.query(chartSql, (err2, chartData) => {
       if (err2) throw err2;
 
-      res.render("admin", {
-        data: results,
-        search,
-        status,
-        chartData,
-        emailLogs, // ✅ pass logs
-      });
+     res.render("admin", {
+  submissions: results,
+  search,
+  status,
+  chartData,
+  emailLogs,
+});
     });
   });
 };
