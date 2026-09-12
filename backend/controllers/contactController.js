@@ -76,47 +76,45 @@ exports.getContacts = (req, res) => {
 
 // ================= CREATE CONTACT =================
 exports.createContact = async (req, res) => {
-const io = req.app.get("io");
-
-const newContact = {
-  id: result.insertId,
-  fname,
-  lname,
-  email,
-  services,
-  contact,
-  msg,
-  status: "pending",
-  created_at: new Date(),
-};
-
-if (io) {
-  io.emit("newContact", newContact);
-}
   const { fname, lname, email, services, contact, msg } = req.body;
+  const io = req.app.get("io");
 
-  const sql =
-    "INSERT INTO contacts (fname,lname,email,services,contact,msg) VALUES (?,?,?,?,?,?)";
+  const sql = `
+    INSERT INTO contacts
+    (fname, lname, email, services, contact, msg)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
 
-  db.query(sql, [fname, lname, email, services, contact, msg], async (err, result) => {
-    if (err) return res.status(500).json(err);
+  db.query(
+    sql,
+    [fname, lname, email, services, contact, msg],
+    async (err, result) => {
+      if (err) {
+        console.error("CONTACT INSERT ERROR:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Unable to save contact",
+        });
+      }
 
-    // 🔥 SOCKET
-    io.emit("newContact", {
-      id: result.insertId,
-      fname,
-      lname,
-      email,
-      services,
-      msg,
-      status: "pending",
-      created_at: new Date(),
-    });
+      const newContact = {
+        id: result.insertId,
+        fname,
+        lname,
+        email,
+        services,
+        contact,
+        msg,
+        status: "pending",
+        created_at: new Date(),
+      };
 
-    try {
-      // ✅ ADMIN MAIL
-    // ADMIN MAIL
-        await transporter.sendMail({
+      if (io) {
+        io.emit("newContact", newContact);
+      }
+
+      try {
+           await transporter.sendMail({
           from: `"MotionPix" <${process.env.EMAIL_USER}>`,
           to: process.env.EMAIL_USER, // info@motionpixindia.com
           subject: "🚀 New Inquiry",
@@ -152,12 +150,13 @@ if (io) {
           `
         });
 
-    } catch (error) {
-      console.log("Email error:", error);
-    }
+      } catch (error) {
+        console.error("EMAIL ERROR:", error);
+      }
 
-    res.json({ success: true });
-  });
+      return res.json({ success: true });
+    }
+  );
 };
 
 // ================= MARK COMPLETE =================
@@ -228,7 +227,7 @@ exports.markComplete = (req, res) => {
   }
 });
 
-      res.redirect("/api/admin");
+      res.redirect("/admin");
     });
   });
 };
@@ -238,6 +237,6 @@ exports.deleteContact = (req, res) => {
   const id = req.params.id;
   db.query("DELETE FROM contacts WHERE id=?", [id], (err) => {
     if (err) console.error("Delete Error:", err);
-    res.redirect("/api/admin");
+    res.redirect("/admin");
   });
 };
