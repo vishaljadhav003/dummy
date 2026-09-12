@@ -19,10 +19,8 @@ router.post("/contact", contactController.createContact);
 // ============================================================
 
 router.get("/admin", auth, contactController.getContacts);
-
-router.get("/complete/:id", contactController.markComplete);
-
-router.get("/delete/:id", contactController.deleteContact);
+router.get("/complete/:id", auth, contactController.markComplete);
+router.get("/delete/:id", auth, contactController.deleteContact);
 
 // ============================================================
 // LOGIN PAGE
@@ -52,7 +50,7 @@ router.post("/login", (req, res) => {
       req.session.user = result[0];
       req.session.isAuth = true;
 
-      return res.redirect("/api/admin");
+      return res.redirect("/admin");
     }
 
     return res.send("Invalid credentials");
