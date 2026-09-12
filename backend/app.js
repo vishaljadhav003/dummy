@@ -129,6 +129,12 @@ app.get("/admin", async (req, res) => {
   }
 });
 
+
+app.get("/health-test", (req, res) => {
+  res.type("text").send("NEW APP.JS IS LIVE");
+});
+
+
 // ================= FRONTEND =================
 
 const frontendPath = path.join(__dirname, "..", "dist");
