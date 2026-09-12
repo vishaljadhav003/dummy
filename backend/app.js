@@ -94,20 +94,7 @@ app.use(
 
 // ================= API ROUTES =================
 
-app.use("/api", contactRoutes);
-
-// ================= API 404 =================
-
-app.use("/api", (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "API route not found",
-  });
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+// ================= LOGIN =================
 
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
@@ -121,6 +108,23 @@ app.post("/api/login", (req, res) => {
   }
 
   res.status(401).send("Invalid username or password");
+});
+
+// ================= API ROUTES =================
+
+app.use("/api", contactRoutes);
+
+// ================= API 404 =================
+
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found",
+  });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
 app.get("/admin", auth, async (req, res) => {
