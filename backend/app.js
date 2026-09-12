@@ -104,6 +104,12 @@ app.use("/api", (req, res) => {
   });
 });
 
+app.get("/admin-test", (req, res) => {
+  console.log("NEW APP.JS IS LIVE");
+  res.render("admin", {
+    submissions: []
+  });
+});
 
 // ================= ADMIN PANEL =================
 
