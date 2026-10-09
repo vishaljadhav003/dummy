@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "dev": "vite",
-  "build": "npm install --prefix backend && vite build",
-  "start": "node backend/app.js",
-  "lint": "oxlint",
-  "preview": "vite preview"
-},
+    "dev": "vite",
+    "build": "npm install --prefix backend && vite build",
+    "start": "node backend/app.js",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@vitejs/plugin-react": "^6.1.1",
     "vite": "^8.3.0",
@@ -21,7 +21,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mysql2": "^3.24.4",
-    "nodemailer": "^10.0.3",
+    "nodemailer": "^10.0.9",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-helmet-async": "^3.0.0",
